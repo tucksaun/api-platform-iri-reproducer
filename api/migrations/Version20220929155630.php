@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210930074739 extends AbstractMigration
+final class Version20220929155630 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,14 @@ final class Version20210930074739 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SEQUENCE greeting_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE greeting (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('ALTER TABLE greeting ADD options_notify BOOLEAN NOT NULL');
+
+        $this->addSql('INSERT into greeting (id, name, options_notify) VALUES (nextval(\'greeting_id_seq\'), \'Tugdual\', FALSE)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP SEQUENCE greeting_id_seq CASCADE');
-        $this->addSql('DROP TABLE greeting');
+        $this->addSql('ALTER TABLE greeting DROP options_notify');
     }
 }

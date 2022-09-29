@@ -10,6 +10,9 @@ class GreetingsTest extends ApiTestCase
     {
         static::createClient()->request('POST', '/greetings', ['json' => [
             'name' => 'Kévin',
+            'options' => [
+                'notify' => true,
+            ]
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -17,6 +20,14 @@ class GreetingsTest extends ApiTestCase
             '@context' => '/contexts/Greeting',
             '@type' => 'Greeting',
             'name' => 'Kévin',
+            'options' => [
+                '@type' => 'Options',
+                'notify' => true,
+            ],
+            'foo' => [
+                '@type' => 'ValueObject',
+                'bar' => 42,
+            ]
         ]);
     }
 }

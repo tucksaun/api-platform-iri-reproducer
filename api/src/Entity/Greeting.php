@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(mercure: true)]
 #[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 class Greeting
 {
     /**
@@ -28,8 +30,35 @@ class Greeting
     #[Assert\NotBlank]
     public string $name = '';
 
+    #[ORM\Embedded(class: Options::class)]
+    #[ApiProperty(
+        jsonldContext: [
+            '@id' => 'https://yourcustomid.com',
+        ]
+    )]
+    public Options $options;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[ApiProperty(
+        iris: ['foo'],
+        jsonldContext: [
+            '@id' => 'https://yourcustomid.biz',
+        ]
+    )]
+    public ValueObject $foo;
+
+    public function __construct()
+    {
+        $this->options = new Options();
+    }
+
+    #[ORM\PostLoad]
+    public function postLoad()
+    {
+        $this->foo = new ValueObject();
     }
 }
