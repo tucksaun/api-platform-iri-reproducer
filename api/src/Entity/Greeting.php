@@ -32,9 +32,7 @@ class Greeting
 
     #[ORM\Embedded(class: Options::class)]
     #[ApiProperty(
-        jsonldContext: [
-            '@id' => 'https://yourcustomid.com',
-        ]
+        types: [false]
     )]
     public Options $options;
 
@@ -44,10 +42,7 @@ class Greeting
     }
 
     #[ApiProperty(
-        iris: ['foo'],
-        jsonldContext: [
-            '@id' => 'https://yourcustomid.biz',
-        ]
+        types: [false]
     )]
     public ValueObject $foo;
 
